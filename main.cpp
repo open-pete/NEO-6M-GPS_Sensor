@@ -48,7 +48,33 @@ string readLineFromSerial(int fileDescriptor_) {
 	return result;
 }
 
+double angularMinute2Degree(string angularMinutesValue, string format_ = "ddmm.mmmmm") {
+	double result;
+
+	if ( angularMinutesValue.length() == format_.length() ) {
+	        std::size_t pos = 0;
+		string degreeString;
+		string angularMinutesString;
+		pos = format_.find("m");
+		cout << "pos " << pos << endl;
+		if (pos != string::npos) {
+			degreeString = angularMinutesValue.substr(0,pos);
+			angularMinutesString = angularMinutesValue.substr(pos-1);
+			cout << degreeString << " - " << angularMinutesString << endl;
+			double degreeDouble = std::stod(degreeString);
+			double angularMinutesDouble = std::stod(angularMinutesString);
+			cout.precision(8);
+			cout << degreeDouble << " xx " << angularMinutesDouble << endl;
+			result = degreeDouble + (angularMinutesDouble / 60.0);
+
+		}
+	}
+	return result;
+}
+
 int main () {
+	cout << angularMinute2Degree("4934.59024");
+	return 0;
 	int fd ;
 
   	if ((fd = serialOpen ("/dev/ttyAMA0", 9600)) < 0) {
