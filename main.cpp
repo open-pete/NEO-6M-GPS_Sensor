@@ -31,7 +31,7 @@ int main () {
         std::size_t pos2 = string::npos;
 
 	if (s.find("GPGLL") != string::npos) {
-		string temp=s;
+/*		string temp=s;
 		pos1=temp.find(",",pos1);
 
 		while (pos1 != string::npos) {
@@ -50,12 +50,14 @@ int main () {
 			}
 			strings.push_back(substring);
 		}
+*/
+		strings = CSV2StringVector(s);
 		cout << "---------------------------------" << endl;
 		for (int i=0; i< strings.size();i++) {
 			cout << "result " << strings[i] << endl;
 		}
 		cout << "+++++++++++++++++++++++++++++++++" << endl;
-	return 0;
+	
 	}
 
 	s="";
@@ -68,3 +70,30 @@ int main () {
   }
 }
 
+vector<string> CSV2StringVector(const string& commaSeparatedString_) {
+	vector<string> strings;
+        std::size_t pos1 = 0;
+        std::size_t pos2 = string::npos;
+
+                string temp=commaSeparatedString_;
+                pos1=temp.find(",",pos1);
+
+                while (pos1 != string::npos) {
+                        cout << "found , in " << temp << " at |" << pos1 << "|" << endl;
+                        pos2=temp.find(",",pos1+1);
+                        cout << "found second , in " << temp << " at |" << pos2 << "|" << endl;
+                        string substring="";
+                        if (pos2 != string::npos) {
+                                substring = temp.substr(pos1+1,(pos2-pos1-1));
+                                cout << "extract from " << pos1+1 << " to " << pos2-pos1-1 << "|" << substring << "|" << endl;
+                                pos1=pos2;
+                        } else {
+                                substring = temp.substr(pos1+1);
+                                cout << "extract from " << pos1+1 << " to end " << "|" << substring << "|" << endl;
+                                pos1=pos2;
+                        }
+                        strings.push_back(substring);
+		}
+
+	return strings;
+}
